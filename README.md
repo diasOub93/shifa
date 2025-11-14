@@ -1,11 +1,13 @@
-# 🏥 Shifa+ - Plateforme de Dématérialisation du Parcours de Santé au Maroc
+# 🏥 Shifa+ - Plateforme Nationale de Dématérialisation du Parcours de Santé
 
 ## 📋 Description
-Shifa+ est une plateforme numérique intégrée qui vise à dématérialiser le parcours de santé au Maroc. Elle connecte patients, professionnels de santé et organismes d'assurance dans un écosystème unique, fluide et sécurisé.
+Shifa+ est une plateforme numérique nationale intégrée développée pour l'État marocain qui vise à dématérialiser le parcours de santé à l'échelle nationale. Elle connecte patients, professionnels de santé et organismes d'assurance dans un écosystème unique, fluide et sécurisé.
 
-**Secteur**: HealthTech / InsurTech  
-**Zone**: 🇲🇦 Maroc  
-**Statut**: En développement
+**Secteur**: HealthTech / InsurTech Gouvernemental  
+**Zone**: 🇲🇦 Maroc (Nationale)  
+**Client**: État Marocain / Ministère de la Santé  
+**Échelle**: 5-10 millions d'utilisateurs  
+**Statut**: En développement - Phase Architecture
 
 ## 🎯 Objectifs
 - Simplifier les démarches médicales
@@ -28,95 +30,113 @@ Shifa+ est une plateforme numérique intégrée qui vise à dématérialiser le 
 
 ---
 
-## 🛠️ Stack Technique Recommandé
+## 🛠️ Stack Technique - Application Gouvernementale
 
 ### **Frontend**
-- **Framework**: **Next.js 14+** (App Router)
-  - Rendu côté serveur (SSR) pour les performances et SEO
-  - Routage optimisé
-  - Support TypeScript natif
-  - API Routes intégrées
+- **Framework**: **Angular 17+** (TypeScript)
+  - Framework enterprise standard
+  - Support Long Term Support (LTS) garanti
+  - Architecture modulaire et scalable
+  - Références gouvernementales nombreuses
   
 - **UI/UX**:
-  - **Tailwind CSS** : Styling moderne et responsive
-  - **shadcn/ui** : Composants accessibles et personnalisables
-  - **Radix UI** : Composants primitifs accessibles
-  - **Lucide React** : Icônes modernes
+  - **Angular Material** : Composants Material Design
+  - **PrimeNG** : Bibliothèque UI enterprise
+  - **NGX-Bootstrap** : Composants Bootstrap pour Angular
+  - Design System conforme accessibilité (WCAG 2.1)
   
 - **État et Formulaires**:
-  - **Zustand** ou **React Context** : Gestion d'état globale légère
-  - **React Hook Form** : Gestion de formulaires performante
-  - **Zod** : Validation de schémas TypeScript-first
+  - **NgRx** : Gestion d'état enterprise (Redux pattern)
+  - **Reactive Forms** : Formulaires Angular natifs
+  - **RxJS** : Programmation réactive
   
-- **Langage**: **TypeScript** (obligatoire pour la sécurité et maintenabilité)
+- **Langage**: **TypeScript** (obligatoire)
 
 ### **Backend**
-- **Framework**: **Node.js avec Express.js** ou **NestJS**
-  - **NestJS** (recommandé) : Architecture modulaire, TypeScript natif, similaire à Angular
-  - Support natif pour les microservices
-  - Décorateurs et injection de dépendances
-  - Documentation OpenAPI automatique
+- **Framework**: **Spring Boot 3.x** (Java 21 LTS)
+  - **Spring Cloud** : Architecture microservices
+  - **Spring Security** : Sécurité niveau entreprise
+  - **Spring Data JPA** : Accès aux données
+  - **Spring Integration** : Intégrations SOAP/REST/Kafka
+  - Support commercial VMware/Oracle garanti
   
-- **API**: **REST** + **GraphQL** (optionnel pour les requêtes complexes)
-  - REST pour les opérations CRUD standard
-  - GraphQL pour les requêtes de dashboard complexes
+- **API**: **REST** + **SOAP** (pour intégrations legacy)
+  - REST pour APIs modernes
+  - SOAP pour CNOPS, CNSS, AMO (legacy)
+  - OpenAPI/Swagger documentation automatique
 
 ### **Base de Données**
-- **Base principale**: **PostgreSQL 15+**
+- **Base principale**: **PostgreSQL 15+** ou **Oracle 19c+**
+  - PostgreSQL : Open-source, performant, certifié
+  - Oracle : Si imposé par cahier des charges
   - Fiable, ACID compliant
-  - Excellente performance pour les données relationnelles
-  - Support JSON pour la flexibilité
-  - Extensions pour la recherche full-text
+  - Support transactions distribuées
+  - Haute disponibilité (réplication)
   
-- **Cache**: **Redis**
-  - Cache des sessions utilisateurs
+- **Cache**: **Redis 7+**
+  - Cache distribué
+  - Sessions utilisateurs
   - Rate limiting
-  - Files d'attente (Bull Queue)
+  - Pub/Sub pour événements temps réel
   
 - **Stockage de fichiers**: 
-  - **AWS S3** ou **MinIO** (alternative open-source)
-  - Chiffrement des documents médicaux
-  - Versionning des documents
+  - **MinIO** (S3-compatible, on-premise)
+  - **AWS S3** (si cloud certifié autorisé)
+  - Chiffrement AES-256-GCM obligatoire
+  - Versioning et archivage légal
 
-### **ORM / Requêtes**
-- **Prisma** (recommandé)
-  - Type-safe
-  - Migrations automatiques
-  - Client TypeScript généré
-  - Excellent support PostgreSQL
-  
-- Alternative : **TypeORM**
+### **ORM / Accès Données**
+- **Hibernate / JPA** (Spring Data JPA)
+  - Standard Java enterprise
+  - Support PostgreSQL et Oracle
+  - Transactions distribuées
+  - Cache de second niveau (EhCache)
+  - Migrations : **Flyway** ou **Liquibase**
+
+### **Messaging & Événements**
+- **Apache Kafka**
+  - Bus d'événements distribués
+  - Audit trail immuable
+  - Intégrations asynchrones (CNOPS, CNSS, etc.)
+  - Scalabilité horizontale
+  - Garantie de livraison
 
 ### **Authentification & Sécurité**
-- **Auth**: **NextAuth.js v5** (Auth.js) ou **Clerk**
-  - Multi-facteur (2FA/MFA) obligatoire pour professionnels
-  - SSO pour les organisations
+- **Auth**: **Keycloak** (SSO Enterprise)
+  - Authentification centralisée
+  - Multi-facteur (2FA/MFA) obligatoire
   - OAuth2 / OpenID Connect
+  - SAML 2.0 pour intégrations gouvernementales
+  - Intégration CIN électronique (PKI)
   
 - **Sécurité**:
-  - **Helmet.js** : Sécurisation des headers HTTP
-  - **bcrypt** ou **argon2** : Hashing des mots de passe
-  - **JWT** : Tokens sécurisés avec rotation
-  - **Rate limiting** : Protection contre les abus
-  - **CORS** configuré strictement
-  - **CSP (Content Security Policy)**
+  - **Spring Security** : Framework sécurité enterprise
+  - **BCrypt** : Hashing mots de passe (strength 12+)
+  - **JWT** : Tokens signés et chiffrés
+  - **Rate limiting** : Spring Cloud Gateway
+  - **CORS** : Configuration stricte
+  - **OWASP** : Protection contre Top 10
+  - **WAF** : Web Application Firewall
   
 - **Chiffrement**:
-  - **AES-256** pour les données sensibles au repos
-  - **TLS 1.3** pour les communications
-  - **crypto-js** ou modules natifs Node.js
+  - **AES-256-GCM** : Données sensibles au repos
+  - **TLS 1.3** : Communications
+  - **HSM** : Hardware Security Module pour clés critiques
+  - **PKI** : Infrastructure à clés publiques (CIN électronique)
+  - **Signature électronique** : Conformité DGSSI
 
 ### **Temps Réel**
-- **Socket.io** ou **WebSockets natifs**
+- **WebSockets** (Spring WebSocket + STOMP)
   - Notifications en temps réel
   - Suivi des demandes de remboursement
-  - Chat support
+  - Messagerie sécurisée
 
 ### **Gestion des Documents**
-- **pdf-lib** : Génération de PDF
-- **sharp** : Traitement d'images optimisé
-- **mammoth** : Conversion de documents Word
-- **OCR (Tesseract.js)** : Extraction de texte des documents scannés
+- **Apache PDFBox** : Génération et manipulation de PDF
+- **iText** : Génération de PDF avancée (commerciale)
+- **ImageMagick** : Traitement d'images
+- **Apache Tika** : Extraction de contenu multi-formats
+- **Tesseract OCR** : Reconnaissance optique de caractères
 
 ### **Paiements & Transactions**
 - **Stripe** ou intégration locale marocaine (**CMI**, **Maroc Telecommerce**)
@@ -136,31 +156,42 @@ Shifa+ est une plateforme numérique intégrée qui vise à dématérialiser le 
 - **k6** ou **Artillery** : Tests de charge
 
 ### **DevOps & Déploiement**
-- **Conteneurisation**: **Docker** + **Docker Compose**
-- **CI/CD**: **GitHub Actions** ou **GitLab CI**
-- **Hébergement**:
-  - **Production**: 
-    - **AWS** (EC2, RDS, S3, CloudFront)
-    - **DigitalOcean** (alternative économique)
-    - **Azure** (conformité européenne/africaine)
-  - **Dev**: **Replit** (pour prototypage rapide)
-  - **Staging**: **Vercel** ou **Railway**
+- **Conteneurisation**: **Docker** + **Kubernetes**
+  - Orchestration microservices
+  - Haute disponibilité
+  - Auto-scaling
   
-- **Monitoring**:
-  - **Sentry** : Tracking des erreurs
-  - **LogRocket** : Session replay
-  - **Prometheus + Grafana** : Métriques système
-  - **Uptime Kuma** : Monitoring de disponibilité
+- **CI/CD**: **GitLab CI/CD** ou **Jenkins**
+  - Pipeline automatisé
+  - Tests qualité obligatoires
+  - Déploiement progressif (blue/green)
+  
+- **Hébergement**:
+  - **Option 1**: **On-Premise** (Datacenter gouvernemental Maroc)
+  - **Option 2**: **Cloud Certifié** (AWS GovCloud, Azure Gov, OVH)
+  - **Exigences**: Conformité DGSSI, données au Maroc
+  - **Architecture**: Multi-zone, haute disponibilité
+  
+- **Monitoring & Observabilité**:
+  - **Prometheus + Grafana** : Métriques temps réel
+  - **ELK Stack** (Elasticsearch, Logstash, Kibana) : Logs centralisés
+  - **Jaeger** : Distributed tracing
+  - **Sentry** : Tracking d'erreurs
+  - **Uptime Monitoring** : Disponibilité 24/7
 
 ### **Conformité & Audits**
-- **Logs d'audit** : Toutes les actions sensibles tracées
+- **Logs d'audit** : Toutes les actions tracées (immutables)
 - **RGPD** : 
   - Consentement explicite
-  - Droit à l'oubli
+  - Droit à l'oubli (avec contraintes légales santé)
   - Exportation des données
   - Minimisation des données
-- **ISO 27001** : Standards de sécurité
-- **HDS** (Hébergement Données de Santé) : Si applicable au Maroc
+- **Loi 09-08** (Maroc) : Protection données personnelles
+- **DGSSI** : Conformité sécurité des systèmes d'information
+- **ISO 27001** : Management de la sécurité de l'information
+- **ISO 27017/27018** : Sécurité cloud
+- **SOC 2 Type II** : Contrôles opérationnels
+- **Certification HDS** : Si applicable (hébergement données santé)
 
 ### **Versionning & Collaboration**
 - **Git** : Contrôle de version
@@ -170,35 +201,83 @@ Shifa+ est une plateforme numérique intégrée qui vise à dématérialiser le 
 
 ---
 
-## 🏗️ Architecture Recommandée
+## 🏗️ Architecture Microservices - Niveau Gouvernemental
 
 ```
-┌─────────────────────────────────────────────────┐
-│                   FRONTEND                      │
-│              Next.js + TypeScript               │
-│         Tailwind + shadcn/ui + Zustand         │
-└──────────────────┬──────────────────────────────┘
-                   │ HTTPS/WSS
-┌──────────────────▼──────────────────────────────┐
-│              API GATEWAY / NGINX                │
-│           Load Balancer + Rate Limit            │
-└──────────────────┬──────────────────────────────┘
-                   │
-        ┌──────────┴──────────┐
-        │                     │
-┌───────▼────────┐   ┌────────▼───────┐
-│  AUTH SERVICE  │   │  MAIN BACKEND  │
-│  (NextAuth.js) │   │    (NestJS)    │
-└───────┬────────┘   └────────┬───────┘
-        │                     │
-        └──────────┬──────────┘
-                   │
-        ┌──────────┴──────────┬──────────────┐
-        │                     │              │
-┌───────▼────────┐  ┌─────────▼────┐  ┌─────▼─────┐
-│   PostgreSQL   │  │     Redis    │  │ S3/MinIO  │
-│  (Données)     │  │   (Cache)    │  │(Documents)│
-└────────────────┘  └──────────────┘  └───────────┘
+                         Internet / VPN Gouvernemental
+                                    │
+                                    ▼
+┌───────────────────────────────────────────────────────────────┐
+│              Load Balancer + WAF (Web Application Firewall)   │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                                ▼
+┌───────────────────────────────────────────────────────────────┐
+│                    FRONTEND (Angular 17+)                      │
+│              Multi-tenant | Responsive | Accessible            │
+└───────────────────────────────┬───────────────────────────────┘
+                                │ HTTPS + TLS 1.3
+                                ▼
+┌───────────────────────────────────────────────────────────────┐
+│              API GATEWAY (Spring Cloud Gateway)                │
+│   • Routing & Load Balancing                                  │
+│   • Rate Limiting & Throttling                                │
+│   • Authentication (Keycloak)                                 │
+│   • Monitoring & Logging                                      │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                ┌───────────────┼───────────────┐
+                │               │               │
+                ▼               ▼               ▼
+┌─────────────────────┐ ┌─────────────────┐ ┌──────────────────┐
+│  Service Registry   │ │  Config Server  │ │  Keycloak (SSO)  │
+│    (Eureka)         │ │  (Spring Cloud) │ │  • OAuth2/OIDC   │
+└─────────────────────┘ └─────────────────┘ │  • SAML 2.0      │
+                                            │  • MFA/2FA       │
+                                            └──────────────────┘
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌───────────────┐     ┌────────────────┐    ┌─────────────────┐
+│   Service     │     │    Service     │    │    Service      │
+│   Patients    │     │   Médecins     │    │  Remboursements │
+│ (Spring Boot) │     │ (Spring Boot)  │    │  (Spring Boot)  │
+└───────────────┘     └────────────────┘    └─────────────────┘
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌───────────────┐     ┌────────────────┐    ┌─────────────────┐
+│   Service     │     │    Service     │    │    Service      │
+│   Documents   │     │  Notifications │    │   Assurances    │
+│ (Spring Boot) │     │ (Spring Boot)  │    │  (Spring Boot)  │
+└───────────────┘     └────────────────┘    └─────────────────┘
+        │                       │                       │
+        └───────────────────────┼───────────────────────┘
+                                │
+                    ┌───────────┴───────────┐
+                    │   Apache Kafka        │
+                    │  • Event Bus          │
+                    │  • Audit Trail        │
+                    │  • Async Integration  │
+                    └───────────┬───────────┘
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌───────────────┐     ┌────────────────┐    ┌─────────────────┐
+│  PostgreSQL   │     │     Redis      │    │   MinIO (S3)    │
+│  (Master/     │     │   (Cache &     │    │  (Documents     │
+│   Replica)    │     │    Sessions)   │    │   Chiffrés)     │
+└───────────────┘     └────────────────┘    └─────────────────┘
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────┐
+│              Monitoring & Observabilité                        │
+│  • Prometheus + Grafana (Métriques)                           │
+│  • ELK Stack (Logs centralisés)                               │
+│  • Jaeger (Distributed Tracing)                               │
+│  • Sentry (Erreurs)                                           │
+└───────────────────────────────────────────────────────────────┘
 ```
 
 ---

@@ -1,26 +1,39 @@
-# 🚀 Guide de Démarrage Rapide - Shifa+
+# 🚀 Guide de Démarrage Rapide - Shifa+ Gouvernemental
+
+## 🏛️ Application Gouvernementale - Spring Boot + Angular
 
 Ce guide vous permettra de démarrer le projet **Shifa+** en local en quelques minutes.
+
+**Contexte** : Application nationale pour l'État marocain  
+**Stack** : Spring Boot 3 + Angular 17 + PostgreSQL + Kafka
+
+---
 
 ## 📋 Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé :
 
 ### Requis
-- ✅ **Node.js** 18+ et npm/pnpm : [Télécharger](https://nodejs.org/)
+- ✅ **Java 21 LTS** (OpenJDK ou Oracle) : [Télécharger](https://adoptium.net/)
+- ✅ **Maven 3.9+** : [Télécharger](https://maven.apache.org/download.cgi)
+- ✅ **Node.js 20 LTS** et npm : [Télécharger](https://nodejs.org/)
+- ✅ **Angular CLI 17+** : `npm install -g @angular/cli@17`
 - ✅ **Docker Desktop** : [Télécharger](https://www.docker.com/products/docker-desktop/)
 - ✅ **Git** : [Télécharger](https://git-scm.com/)
 
 ### Optionnel (pour dev sans Docker)
 - **PostgreSQL** 15+ : [Télécharger](https://www.postgresql.org/download/)
 - **Redis** : [Télécharger](https://redis.io/download/)
+- **Apache Kafka** : [Télécharger](https://kafka.apache.org/downloads)
 
 ### Vérification
 ```bash
-node --version   # v18.0.0 ou plus
-npm --version    # 9.0.0 ou plus
-docker --version # 20.0.0 ou plus
-git --version    # 2.0.0 ou plus
+java --version      # Java 21.0.0 ou plus
+mvn --version       # Maven 3.9.0 ou plus
+node --version      # v20.0.0 ou plus
+ng version          # Angular CLI 17.0.0 ou plus
+docker --version    # 20.0.0 ou plus
+git --version       # 2.0.0 ou plus
 ```
 
 ---
@@ -43,7 +56,7 @@ cp env.example .env
 # Sur Mac/Linux : nano .env
 ```
 
-### Étape 3 : Démarrer les services (PostgreSQL, Redis, MinIO)
+### Étape 3 : Démarrer les services (PostgreSQL, Redis, Kafka, MinIO)
 ```bash
 docker-compose up -d
 ```
@@ -51,80 +64,107 @@ docker-compose up -d
 **Vérification** :
 - PostgreSQL : http://localhost:5432
 - Redis : localhost:6379
+- Kafka : localhost:9092
 - MinIO Console : http://localhost:9001 (minioadmin / minioadmin123)
 - pgAdmin (dev) : http://localhost:5050
 
-### Étape 4 : Créer la structure frontend
+### Étape 4 : Créer le backend Spring Boot
+
+**Option A : Via Spring Initializr (Recommandé)**
+
+1. Aller sur https://start.spring.io
+2. Configurer :
+   - **Project** : Maven
+   - **Language** : Java
+   - **Spring Boot** : 3.2.x
+   - **Java** : 21
+   - **Packaging** : Jar
+   - **Dependencies** :
+     - Spring Web
+     - Spring Data JPA
+     - PostgreSQL Driver
+     - Spring Security
+     - Spring for Apache Kafka
+     - Spring Boot Actuator
+     - Flyway Migration
+     - Validation
+     - Lombok
+3. Télécharger et extraire dans le dossier `backend/`
+
+**Option B : Via Spring CLI**
 ```bash
-# Créer l'application Next.js
-npx create-next-app@latest frontend --typescript --tailwind --app --src-dir --no-git
+# Installer Spring CLI (optionnel)
+# Télécharger depuis https://spring.io/tools
 
-# Répondre aux questions :
-# ✔ Would you like to use ESLint? … Yes
-# ✔ Would you like to use Turbopack? … No
-# ✔ Would you like to customize the default import alias? … No
-
-cd frontend
-npm install
+# Créer le projet
+spring init \
+  --build=maven \
+  --java-version=21 \
+  --dependencies=web,data-jpa,postgresql,security,kafka,actuator,flyway,validation,lombok \
+  --group-id=ma.gov.sante \
+  --artifact-id=shifa-backend \
+  --name=shifa-backend \
+  backend
 ```
 
-### Étape 5 : Installer shadcn/ui (Frontend)
+### Étape 5 : Configurer le backend Spring Boot
 ```bash
-# Dans le dossier frontend/
-npx shadcn-ui@latest init
+cd backend
 
-# Installer les composants de base
-npx shadcn-ui@latest add button card input form table dialog toast
+# Installer les dépendances
+mvn clean install
+
+# Configurer application.properties ou application.yml
+# Voir QUICK_START_GOUVERNEMENTAL.md pour la configuration complète
 ```
 
-### Étape 6 : Créer le backend NestJS
+### Étape 6 : Configurer Flyway (Migrations DB)
+```bash
+# Dans backend/src/main/resources/db/migration/
+# Créer V1__init_schema.sql avec le schéma de base de données
+
+# Appliquer les migrations
+mvn flyway:migrate
+```
+
+### Étape 7 : Créer le frontend Angular
 ```bash
 # Revenir à la racine
 cd ..
 
-# Installer NestJS CLI globalement (si pas déjà fait)
-npm i -g @nestjs/cli
+# Créer l'application Angular
+ng new shifa-frontend \
+  --routing \
+  --style=scss \
+  --strict \
+  --package-manager=npm
 
-# Créer le projet backend
-nest new backend --package-manager npm
-
-cd backend
+cd shifa-frontend
 ```
 
-### Étape 7 : Installer Prisma (Backend)
+### Étape 8 : Installer Angular Material et PrimeNG
 ```bash
-# Dans le dossier backend/
-npm install prisma @prisma/client
-npm install -D prisma
+# Dans le dossier frontend/
+# Installer Angular Material
+ng add @angular/material
 
-# Initialiser Prisma
-npx prisma init
+# Répondre aux questions :
+# ✔ Choose a prebuilt theme name: Indigo/Pink (ou autre)
+# ✔ Set up global Angular Material typography styles? Yes
+# ✔ Include the Angular animations module? Yes
 
-# Le fichier prisma/schema.prisma a été créé
+# Installer PrimeNG
+npm install primeng primeicons
+npm install @angular/animations
+
+# Installer les dépendances supplémentaires
+npm install @angular/common @angular/forms rxjs
 ```
 
-### Étape 8 : Configurer Prisma
-Copier le schéma depuis `STACK_TECHNIQUE.md` dans `backend/prisma/schema.prisma`
-
-Ensuite :
+### Étape 9 : Configurer le frontend
 ```bash
-# Créer et appliquer la migration
-npx prisma migrate dev --name init
-
-# Générer le client Prisma
-npx prisma generate
-
-# (Optionnel) Ouvrir Prisma Studio pour voir la BDD
-npx prisma studio
-```
-
-### Étape 9 : Installer les dépendances backend
-```bash
-# Dans le dossier backend/
-npm install @nestjs/config @nestjs/jwt @nestjs/passport passport passport-jwt
-npm install @nestjs/throttler class-validator class-transformer
-npm install bcrypt helmet
-npm install -D @types/bcrypt @types/passport-jwt
+# Configurer les modules dans app.module.ts
+# Voir QUICK_START_GOUVERNEMENTAL.md pour la configuration complète
 ```
 
 ### Étape 10 : Démarrer l'application
@@ -132,16 +172,18 @@ npm install -D @types/bcrypt @types/passport-jwt
 **Terminal 1 - Backend** :
 ```bash
 cd backend
-npm run start:dev
+mvn spring-boot:run
 ```
-→ Backend disponible sur http://localhost:3001
+→ Backend disponible sur http://localhost:8080  
+→ Actuator : http://localhost:8080/actuator/health  
+→ Swagger : http://localhost:8080/swagger-ui.html
 
 **Terminal 2 - Frontend** :
 ```bash
-cd frontend
-npm run dev
+cd shifa-frontend
+ng serve
 ```
-→ Frontend disponible sur http://localhost:3000
+→ Frontend disponible sur http://localhost:4200
 
 ---
 
@@ -151,6 +193,7 @@ npm run dev
 Installer manuellement :
 - PostgreSQL 15+
 - Redis
+- Apache Kafka
 
 ### Configuration PostgreSQL
 ```bash
@@ -168,6 +211,16 @@ psql -c "GRANT ALL PRIVILEGES ON DATABASE shifa_db TO shifa_user;"
 redis-server
 ```
 
+### Configuration Kafka
+```bash
+# Télécharger Kafka depuis https://kafka.apache.org/downloads
+# Extraire et démarrer Zookeeper
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+# Dans un autre terminal, démarrer Kafka
+bin/kafka-server-start.sh config/server.properties
+```
+
 ### Suivre les étapes 1, 2, 4-10 ci-dessus
 Mais au lieu de `docker-compose up`, vous utilisez vos installations locales.
 
@@ -179,29 +232,39 @@ Après configuration complète :
 
 ```
 shifa/
-├── frontend/               # Application Next.js
+├── shifa-frontend/         # Application Angular
 │   ├── src/
 │   │   ├── app/
-│   │   ├── components/
-│   │   └── lib/
-│   ├── public/
+│   │   │   ├── features/
+│   │   │   ├── shared/
+│   │   │   └── core/
+│   │   ├── assets/
+│   │   └── environments/
+│   ├── angular.json
 │   ├── package.json
 │   └── tsconfig.json
 │
-├── backend/                # API NestJS
+├── backend/                # API Spring Boot
 │   ├── src/
-│   │   ├── auth/
-│   │   ├── users/
-│   │   └── main.ts
-│   ├── prisma/
-│   │   └── schema.prisma
-│   ├── package.json
-│   └── tsconfig.json
+│   │   ├── main/
+│   │   │   ├── java/ma/gov/sante/shifa/
+│   │   │   │   ├── ShifaApplication.java
+│   │   │   │   ├── auth/
+│   │   │   │   ├── users/
+│   │   │   │   ├── patients/
+│   │   │   │   └── config/
+│   │   │   └── resources/
+│   │   │       ├── application.yml
+│   │   │       └── db/migration/
+│   │   └── test/
+│   ├── pom.xml
+│   └── mvnw
 │
-├── docker-compose.yml      # Services Docker
+├── docker-compose.yml      # Services Docker (PostgreSQL, Redis, Kafka)
 ├── .gitignore
 ├── README.md
-├── STACK_TECHNIQUE.md
+├── STACK_GOUVERNEMENTAL.md
+├── QUICK_START_GOUVERNEMENTAL.md
 └── GUIDE_DEMARRAGE.md
 ```
 
@@ -211,85 +274,102 @@ shifa/
 
 ### 1. Backend fonctionne
 ```bash
-curl http://localhost:3001
-# Devrait retourner "Hello World!" ou similaire
+curl http://localhost:8080/actuator/health
+# Devrait retourner {"status":"UP"}
 ```
 
 ### 2. Frontend fonctionne
-Ouvrir http://localhost:3000 dans le navigateur
+Ouvrir http://localhost:4200 dans le navigateur
 
 ### 3. Base de données connectée
 ```bash
-cd backend
-npx prisma studio
+# Se connecter à PostgreSQL
+docker exec -it shifa_postgres psql -U shifa_user -d shifa_db
+
+# Vérifier les tables
+\dt
+
+# Quitter
+\q
 ```
-Une interface web s'ouvre sur http://localhost:5555
 
 ### 4. Docker services actifs
 ```bash
 docker ps
 ```
-Devrait afficher : postgres, redis, minio
+Devrait afficher : postgres, redis, kafka, minio
+
+### 5. Swagger UI accessible
+Ouvrir http://localhost:8080/swagger-ui.html dans le navigateur
 
 ---
 
 ## 🎨 Prochaines Étapes de Développement
 
-### Phase 1 : Authentification (Semaine 1)
-- [ ] Module d'authentification NestJS
-- [ ] NextAuth.js configuration
-- [ ] Pages de login/register
-- [ ] JWT tokens & refresh tokens
-- [ ] Guards & Decorators
+### Phase 1 : POC (Mois 1-6)
 
-### Phase 2 : Gestion Utilisateurs (Semaine 2)
-- [ ] CRUD Patients
-- [ ] CRUD Médecins
-- [ ] CRUD Assurances
-- [ ] Gestion des rôles et permissions
+#### Mois 1-2 : Configuration & Infrastructure
+- [ ] Setup infrastructure complète (Kubernetes local)
+- [ ] Architecture microservices de base
+- [ ] Configuration CI/CD (Jenkins/GitLab CI)
+- [ ] Monitoring (Prometheus/Grafana)
+
+#### Mois 3-4 : Authentification & Sécurité
+- [ ] Intégration Keycloak
+- [ ] Module Auth avec PKI (CIN électronique)
+- [ ] HSM pour clés de chiffrement
+- [ ] Pages login/register Angular
+- [ ] Guards et Interceptors Spring Security
+
+#### Mois 5-6 : Modules de Base
+- [ ] CRUD Patients (Spring Boot + Angular)
+- [ ] CRUD Médecins (Spring Boot + Angular)
+- [ ] Gestion des rôles et permissions (RBAC)
 - [ ] Profils utilisateurs
 
-### Phase 3 : Dossiers Médicaux (Semaine 3-4)
+### Phase 2 : Pilote (Mois 7-12)
+
+#### Mois 7-8 : Dossiers Médicaux
 - [ ] Création dossier patient
-- [ ] Upload de documents
-- [ ] Chiffrement des documents
+- [ ] Upload de documents (chiffrement AES-256 + HSM)
 - [ ] Gestion des ordonnances
 - [ ] Historique médical
 
-### Phase 4 : Remboursements (Semaine 5-6)
+#### Mois 9-10 : Remboursements
 - [ ] Soumission de demande
-- [ ] Workflow de validation
-- [ ] Suivi en temps réel
-- [ ] Notifications
-- [ ] Statistiques et rapports
+- [ ] Workflow de validation (Spring State Machine)
+- [ ] Suivi en temps réel (Kafka + WebSocket)
+- [ ] Notifications (Kafka events)
+- [ ] Intégrations CNOPS/CNSS
 
-### Phase 5 : Dashboards (Semaine 7-8)
-- [ ] Dashboard Patient
+#### Mois 11-12 : Dashboards & Tests Pilote
+- [ ] Dashboard Patient (Angular Material)
 - [ ] Dashboard Médecin
 - [ ] Dashboard Assurance
 - [ ] Dashboard Admin
-- [ ] Analytics
+- [ ] Analytics avec Kafka Streams
+- [ ] Tests pilote régionaux
 
-### Phase 6 : Intégrations (Semaine 9-10)
-- [ ] API CNOPS
-- [ ] API CNSS
-- [ ] API AMO
-- [ ] Systèmes hospitaliers
-- [ ] Laboratoires
+### Phase 3 : National (Mois 13-18)
 
-### Phase 7 : Tests & Sécurité (Semaine 11-12)
-- [ ] Tests unitaires (80%+ coverage)
-- [ ] Tests E2E
-- [ ] Audit de sécurité
-- [ ] Pentesting
-- [ ] Documentation API
+#### Mois 13-14 : Tests & Sécurité Enterprise
+- [ ] Tests unitaires (JUnit 5) - 85%+ coverage
+- [ ] Tests d'intégration (Spring Boot Test)
+- [ ] Tests E2E (Cypress/Playwright)
+- [ ] Audit de sécurité (SonarQube)
+- [ ] Certifications (ISO 27001, DGSSI)
 
-### Phase 8 : Déploiement (Semaine 13-14)
-- [ ] Configuration production
-- [ ] CI/CD Pipeline
-- [ ] Monitoring
-- [ ] Backups
-- [ ] DNS & Certificats SSL
+#### Mois 15-16 : Infrastructure Production
+- [ ] Configuration Kubernetes production
+- [ ] CI/CD Pipeline complet
+- [ ] Monitoring enterprise (ELK Stack)
+- [ ] Backups et Disaster Recovery
+
+#### Mois 17-18 : Déploiement National
+- [ ] Déploiement progressif (3 régions puis national)
+- [ ] Support utilisateurs 24/7
+- [ ] Formation utilisateurs
+- [ ] Documentation utilisateur
 
 ---
 
@@ -303,6 +383,9 @@ docker-compose up -d
 # Voir les logs
 docker-compose logs -f
 
+# Voir les logs d'un service spécifique
+docker-compose logs -f postgres
+
 # Arrêter les services
 docker-compose down
 
@@ -313,55 +396,68 @@ docker-compose down -v
 docker-compose restart postgres
 ```
 
-### Prisma
+### Flyway (Migrations DB)
 ```bash
+# Dans le dossier backend/
 # Créer une nouvelle migration
-npx prisma migrate dev --name nom_de_la_migration
+# Créer un fichier V2__description.sql dans src/main/resources/db/migration/
 
-# Appliquer les migrations en production
-npx prisma migrate deploy
+# Appliquer les migrations
+mvn flyway:migrate
+
+# Vérifier le statut des migrations
+mvn flyway:info
 
 # Réinitialiser la BDD (dev uniquement!)
-npx prisma migrate reset
-
-# Ouvrir Prisma Studio
-npx prisma studio
-
-# Générer le client après modification du schema
-npx prisma generate
+mvn flyway:clean
+mvn flyway:migrate
 ```
 
-### Frontend (Next.js)
+### Frontend (Angular)
 ```bash
 # Dev avec hot-reload
-npm run dev
+ng serve
 
 # Build de production
-npm run build
+ng build --configuration production
 
-# Lancer le build
-npm run start
+# Lancer les tests
+ng test
 
 # Linter
-npm run lint
+ng lint
+
+# Générer un composant
+ng generate component features/patient/patient-list
+
+# Générer un service
+ng generate service services/patient
 ```
 
-### Backend (NestJS)
+### Backend (Spring Boot)
 ```bash
 # Dev avec hot-reload
-npm run start:dev
+mvn spring-boot:run
 
 # Build
-npm run build
+mvn clean install
 
 # Production
-npm run start:prod
+mvn clean package
+java -jar target/shifa-backend-1.0.0.jar
 
 # Tests
-npm run test
-npm run test:watch
-npm run test:cov
-npm run test:e2e
+mvn test
+mvn test -Dtest=PatientServiceTest
+
+# Tests avec coverage
+mvn test jacoco:report
+
+# Vérifier les dépendances
+mvn dependency:tree
+
+# Nettoyer et réinstaller
+mvn clean install -U
 ```
 
 ### Git
@@ -388,12 +484,19 @@ git checkout -b feature/nom-feature
 
 ### Port déjà utilisé
 ```bash
-# Trouver le processus utilisant le port 3000
+# Trouver le processus utilisant le port 8080 (Backend)
 # Windows
-netstat -ano | findstr :3000
+netstat -ano | findstr :8080
 
 # Mac/Linux
-lsof -i :3000
+lsof -i :8080
+
+# Trouver le processus utilisant le port 4200 (Frontend)
+# Windows
+netstat -ano | findstr :4200
+
+# Mac/Linux
+lsof -i :4200
 
 # Tuer le processus
 # Windows
@@ -407,21 +510,66 @@ kill -9 <PID>
 - Vérifier que Docker Desktop est lancé
 - Redémarrer Docker Desktop
 - Vérifier les logs : `docker-compose logs`
+- Vérifier l'espace disque disponible
 
-### Erreurs Prisma
+### Erreurs Maven
 ```bash
-# Régénérer le client
-npx prisma generate
+# Nettoyer et réinstaller
+mvn clean install -U
 
-# Réinitialiser la BDD
-npx prisma migrate reset
+# Supprimer le cache Maven local (si nécessaire)
+# Windows: %USERPROFILE%\.m2\repository
+# Mac/Linux: ~/.m2/repository
 ```
 
-### Erreurs de dépendances
+### Erreurs Flyway
+```bash
+# Vérifier le statut des migrations
+mvn flyway:info
+
+# Réparer les migrations (si nécessaire)
+mvn flyway:repair
+
+# Vérifier la connexion à la base de données
+# Vérifier application.yml ou application.properties
+```
+
+### Erreurs Angular
 ```bash
 # Supprimer node_modules et réinstaller
 rm -rf node_modules package-lock.json
 npm install
+
+# Nettoyer le cache Angular
+ng cache clean
+
+# Vérifier la version d'Angular CLI
+ng version
+```
+
+### Erreurs Java
+```bash
+# Vérifier la version Java
+java --version  # Doit être Java 21
+
+# Vérifier JAVA_HOME
+# Windows
+echo %JAVA_HOME%
+
+# Mac/Linux
+echo $JAVA_HOME
+
+# Si JAVA_HOME n'est pas défini, le configurer
+```
+
+### Kafka ne démarre pas
+```bash
+# Vérifier les logs Kafka
+docker-compose logs kafka
+
+# Vérifier que Zookeeper est démarré (si Kafka standalone)
+# Redémarrer Kafka
+docker-compose restart kafka
 ```
 
 ---
@@ -429,35 +577,47 @@ npm install
 ## 🆘 Besoin d'Aide ?
 
 ### Documentation
-- **Next.js** : https://nextjs.org/docs
-- **NestJS** : https://docs.nestjs.com
-- **Prisma** : https://www.prisma.io/docs
+- **Spring Boot** : https://spring.io/projects/spring-boot
+- **Spring Cloud Gateway** : https://spring.io/projects/spring-cloud-gateway
+- **Angular** : https://angular.io/docs
+- **Angular Material** : https://material.angular.io/
+- **PrimeNG** : https://primeng.org/
+- **Flyway** : https://flywaydb.org/documentation/
+- **Kafka** : https://kafka.apache.org/documentation/
 - **Docker** : https://docs.docker.com
 
 ### Support
-- 📧 Email : dev@shifa.ma
+- 📧 Email : support@shifa.gov.ma
 - 💬 Slack : #shifa-dev
-- 📖 Wiki interne : wiki.shifa.ma
+- 📖 Wiki interne : wiki.shifa.gov.ma
+- 📚 Documentation projet : Voir `STACK_GOUVERNEMENTAL.md` et `QUICK_START_GOUVERNEMENTAL.md`
 
 ---
 
 ## ✅ Checklist de Configuration
 
-- [ ] Node.js 18+ installé
+- [ ] Java 21 LTS installé
+- [ ] Maven 3.9+ installé
+- [ ] Node.js 20 LTS installé
+- [ ] Angular CLI 17+ installé
 - [ ] Docker Desktop installé et lancé
 - [ ] Projet cloné
 - [ ] Fichier .env configuré
-- [ ] Docker services lancés (postgres, redis, minio)
-- [ ] Frontend créé et dépendances installées
-- [ ] Backend créé et dépendances installées
-- [ ] Prisma configuré et migrations appliquées
-- [ ] Frontend démarre sur http://localhost:3000
-- [ ] Backend démarre sur http://localhost:3001
-- [ ] Prisma Studio accessible
+- [ ] Docker services lancés (postgres, redis, kafka, minio)
+- [ ] Backend Spring Boot créé et configuré
+- [ ] Flyway migrations appliquées
+- [ ] Frontend Angular créé et dépendances installées
+- [ ] Angular Material et PrimeNG installés
+- [ ] Backend démarre sur http://localhost:8080
+- [ ] Frontend démarre sur http://localhost:4200
+- [ ] Actuator health check accessible
+- [ ] Swagger UI accessible
 
 ---
 
 **Bon développement ! 🚀**
 
-*Dernière mise à jour : Octobre 2025*
+*Dernière mise à jour : Octobre 2025*  
+*Contexte : Application Gouvernementale*  
+*Stack : Spring Boot 3 + Angular 17 + PostgreSQL + Kafka*
 

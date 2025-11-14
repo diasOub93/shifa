@@ -1,6 +1,11 @@
-# 📚 Index de la Documentation - Shifa+
+# 📚 Index de la Documentation - Shifa+ (Application Gouvernementale)
 
-Bienvenue dans la documentation complète de **Shifa+**. Ce document vous guide vers les bonnes ressources selon vos besoins.
+Bienvenue dans la documentation complète de **Shifa+** - Application Nationale pour l'État Marocain.  
+Ce document vous guide vers les bonnes ressources selon vos besoins.
+
+**⚠️ CONTEXTE : Application Gouvernementale (Spring Boot + Angular + Kafka)**
+
+Si vous cherchez la documentation pour une startup (Next.js + NestJS), consultez les fichiers marqués **(Startup)**.
 
 ---
 
@@ -8,10 +13,15 @@ Bienvenue dans la documentation complète de **Shifa+**. Ce document vous guide 
 
 ### 👨‍💻 Développeurs
 
-**Commencer rapidement** :
-1. 📄 [QUICK_START.md](QUICK_START.md) - Démarrage en 5 minutes
-2. 📄 [GUIDE_DEMARRAGE.md](GUIDE_DEMARRAGE.md) - Guide complet étape par étape
-3. 📄 [STACK_TECHNIQUE.md](STACK_TECHNIQUE.md) - Stack détaillé avec exemples
+**⭐ Commencer rapidement (Gouvernemental)** :
+1. 📄 [QUICK_START_GOUVERNEMENTAL.md](QUICK_START_GOUVERNEMENTAL.md) - Démarrage Spring Boot + Angular
+2. 📄 [STACK_GOUVERNEMENTAL.md](STACK_GOUVERNEMENTAL.md) - Stack détaillé contexte gouvernemental
+3. 📄 [CHANGEMENTS_GOUVERNEMENTAL.md](CHANGEMENTS_GOUVERNEMENTAL.md) - Récapitulatif changements
+
+**Alternative Startup (Next.js)** :
+1. 📄 [QUICK_START.md](QUICK_START.md) - Démarrage en 5 minutes **(Startup)**
+2. 📄 [GUIDE_DEMARRAGE.md](GUIDE_DEMARRAGE.md) - Guide complet **(Startup)**
+3. 📄 [STACK_TECHNIQUE.md](STACK_TECHNIQUE.md) - Stack Next.js + NestJS **(Startup)**
 
 **Développement** :
 - 📄 [API_ARCHITECTURE.md](API_ARCHITECTURE.md) - Architecture et endpoints API
@@ -68,6 +78,16 @@ Bienvenue dans la documentation complète de **Shifa+**. Ce document vous guide 
    - Sécurité : JWT, MFA, AES-256
    - DevOps : Docker, CI/CD
 
+### 🤔 Je veux savoir pourquoi ce stack (et pas Spring Boot/Java)
+1. **[COMPARAISON_STACKS.md](COMPARAISON_STACKS.md)** 📊
+   - Comparaison détaillée Next.js vs Spring Boot
+   - Analyse de productivité et coûts
+   - Cas d'usage et recommandations
+2. **[STACK_DECISION.md](STACK_DECISION.md)** ⚡
+   - Résumé exécutif visuel
+   - Chiffres concrets pour Shifa+
+   - Décision finale argumentée
+
 ### 🔐 Je veux comprendre la sécurité
 1. **[SECURITE_CONFORMITE.md](SECURITE_CONFORMITE.md)** 🛡️
    - 10 sections détaillées
@@ -106,8 +126,10 @@ Bienvenue dans la documentation complète de **Shifa+**. Ce document vous guide 
 | **SECURITE_CONFORMITE.md** | 28 KB | Sécurité et conformité RGPD | DevSecOps, DPO, CTO |
 | **RESUME_PROJET.md** | 14 KB | Résumé exécutif complet | Tous, Business |
 | **INDEX_DOCUMENTATION.md** | 3 KB | Ce fichier - Index de la doc | Tous |
+| **COMPARAISON_STACKS.md** | 24 KB | Comparaison Next.js vs Spring Boot | CTO, Tech Lead |
+| **STACK_DECISION.md** | 12 KB | Résumé exécutif de la décision | Tous, Business |
 
-**Total** : ~200 KB de documentation | ~80 pages
+**Total** : ~240 KB de documentation | ~95 pages
 
 ### 🔧 Configuration (Fichiers)
 
@@ -145,6 +167,12 @@ Bienvenue dans la documentation complète de **Shifa+**. Ce document vous guide 
 ---
 
 ## 🔍 Rechercher une Information
+
+### Choix Techniques
+- **Pourquoi Next.js vs Angular** : [COMPARAISON_STACKS.md](COMPARAISON_STACKS.md)
+- **Pourquoi NestJS vs Spring Boot** : [COMPARAISON_STACKS.md](COMPARAISON_STACKS.md)
+- **Décision finale** : [STACK_DECISION.md](STACK_DECISION.md)
+- **Migration vers Spring Boot** : [COMPARAISON_STACKS.md](COMPARAISON_STACKS.md#migration-possible-plus-tard)
 
 ### Frontend
 - **Next.js** : [STACK_TECHNIQUE.md](STACK_TECHNIQUE.md#frontend-stack)
